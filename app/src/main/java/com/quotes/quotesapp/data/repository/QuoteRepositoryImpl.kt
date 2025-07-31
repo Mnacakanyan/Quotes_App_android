@@ -16,4 +16,12 @@ class QuoteRepositoryImpl(
             urlString = "https://zenquotes.io/api/random"
         ).body<List<QuoteResponse>>().first().toQuote()
     }
+
+    override suspend fun getQuotes(): List<Quote> {
+        return httpClient.get(
+            urlString = "https://zenquotes.io/api/quotes"
+        ).body<List<QuoteResponse>>().map { it.toQuote() }
+    }
+
+
 }
