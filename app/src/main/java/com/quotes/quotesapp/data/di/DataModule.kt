@@ -5,7 +5,9 @@ import androidx.room.Room
 import com.quotes.quotesapp.data.api.KtorClientProvider
 import com.quotes.quotesapp.data.db.QuoteDao
 import com.quotes.quotesapp.data.db.QuoteDatabase
+import com.quotes.quotesapp.data.repository.FavoritesRepositoryImpl
 import com.quotes.quotesapp.data.repository.QuoteRepositoryImpl
+import com.quotes.quotesapp.domain.repository.FavoritesRepository
 import com.quotes.quotesapp.domain.repository.QuoteRepository
 import dagger.Module
 import dagger.Provides
@@ -23,6 +25,12 @@ object DataModule {
     @Singleton
     fun provideQuoteRepository(httpClient: HttpClient): QuoteRepository {
         return QuoteRepositoryImpl(httpClient)
+    }
+
+    @Provides
+    @Singleton
+    fun provideFavoritesRepository(quoteDao: QuoteDao): FavoritesRepository {
+        return FavoritesRepositoryImpl(quoteDao)
     }
 
     @Provides

@@ -53,6 +53,7 @@ import com.aghajari.compose.lazyswipecards.LazySwipeCards
 import com.aghajari.compose.lazyswipecards.SwipeDirection
 import com.quotes.quotesapp.presentation.favorites.FavoritesScreen
 import com.quotes.quotesapp.presentation.model.QuoteUiModel
+import com.quotes.quotesapp.presentation.settings.SettingsScreen
 import com.quotes.quotesapp.presentation.settings.SettingsViewModel
 import com.quotes.quotesapp.presentation.ui.theme.DarkPrimary
 import com.quotes.quotesapp.presentation.ui.theme.LightPrimary

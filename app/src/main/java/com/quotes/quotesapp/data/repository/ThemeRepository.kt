@@ -12,7 +12,7 @@ import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 import javax.inject.Singleton
 
-val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "settings")
+private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "settings")
 
 @Singleton
 class ThemeRepository @Inject constructor(@ApplicationContext private val context: Context) {
@@ -23,7 +23,7 @@ class ThemeRepository @Inject constructor(@ApplicationContext private val contex
 
     val isDarkMode: Flow<Boolean> = context.dataStore.data
         .map { preferences ->
-            preferences[PreferencesKeys.IS_DARK_MODE] ?: false // Default to light mode
+            preferences[PreferencesKeys.IS_DARK_MODE] ?: false
         }
 
     suspend fun setDarkMode(isDarkMode: Boolean) {

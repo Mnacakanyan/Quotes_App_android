@@ -2,7 +2,7 @@ package com.quotes.quotesapp.presentation.favorites
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.quotes.quotesapp.data.repository.FavoritesRepository
+import com.quotes.quotesapp.domain.repository.FavoritesRepository
 import com.quotes.quotesapp.presentation.model.QuoteUiModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.SharingStarted
@@ -18,7 +18,6 @@ class FavoritesViewModel @Inject constructor(
 
     val favoriteQuotes: StateFlow<List<QuoteUiModel>> =
         favoritesRepository.getFavoriteQuotes()
-
             .stateIn(
                 scope = viewModelScope,
                 started = SharingStarted.WhileSubscribed(5000),

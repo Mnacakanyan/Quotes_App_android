@@ -1,19 +1,19 @@
 package com.quotes.quotesapp.data.repository
 
 import com.quotes.quotesapp.data.db.QuoteDao
-import com.quotes.quotesapp.data.db.QuoteEntity // Assuming QuoteEntity is in this package
-import com.quotes.quotesapp.presentation.model.QuoteUiModel // Assuming this is the correct QuoteUiModel
+import com.quotes.quotesapp.data.db.QuoteEntity
+import com.quotes.quotesapp.domain.repository.FavoritesRepository
+import com.quotes.quotesapp.presentation.model.QuoteUiModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class FavoritesRepository @Inject constructor(
+class FavoritesRepositoryImpl @Inject constructor(
     private val quoteDao: QuoteDao
-) {
+): FavoritesRepository {
 
-    // Private mapping function from QuoteEntity to QuoteUiModel
     private fun QuoteEntity.toPresentationModel(): QuoteUiModel {
         return QuoteUiModel(
 
@@ -22,7 +22,7 @@ class FavoritesRepository @Inject constructor(
         )
     }
 
-    // Private mapping function from QuoteUiModel to QuoteEntity
+
     private fun QuoteUiModel.toEntity(): QuoteEntity {
         return QuoteEntity(
 
@@ -32,18 +32,18 @@ class FavoritesRepository @Inject constructor(
         )
     }
 
-    fun getFavoriteQuotes(): Flow<List<QuoteUiModel>> {
+    override fun getFavoriteQuotes(): Flow<List<QuoteUiModel>> {
         return quoteDao.getAllQuotes().map { entities ->
-            entities.map { it.toPresentationModel() } // Use internal mapper
+            entities.map { it.toPresentationModel() }
         }
     }
 
-    suspend fun addFavorite(quote: QuoteUiModel) {
+    override suspend fun addFavorite(quote: QuoteUiModel) {
 
-        quoteDao.insertQuote(quote.toEntity()) // Use internal mapper
+        quoteDao.insertQuote(quote.toEntity())
     }
 
-    suspend fun removeFavorite(quote: QuoteUiModel) {
+    override suspend fun removeFavorite(quote: QuoteUiModel) {
 
 
     }
