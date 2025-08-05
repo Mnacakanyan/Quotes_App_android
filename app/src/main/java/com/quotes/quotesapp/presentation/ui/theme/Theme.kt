@@ -10,16 +10,28 @@ import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
 
-private val DarkColorScheme = darkColorScheme(
-    primary = Purple80,
-    secondary = PurpleGrey80,
-    tertiary = Pink80
+private val DarkColorPalette = darkColorScheme(
+    primary = DarkPrimary,
+    primaryContainer = DarkPrimaryVariant, // primaryVariant is deprecated, using primaryContainer instead
+    secondary = DarkSecondary,
+    background = DarkBackground,
+    surface = DarkSurface,
+    onPrimary = DarkOnPrimary,
+    onSecondary = DarkOnSecondary,
+    onBackground = DarkOnBackground,
+    onSurface = DarkOnSurface,
 )
 
-private val LightColorScheme = lightColorScheme(
-    primary = Purple40,
-    secondary = PurpleGrey40,
-    tertiary = Pink40
+private val LightColorPalette = lightColorScheme(
+    primary = LightPrimary,
+    primaryContainer = LightPrimaryVariant, // primaryVariant is deprecated, using primaryContainer instead
+    secondary = LightSecondary,
+    background = LightBackground,
+    surface = LightSurface,
+    onPrimary = LightOnPrimary,
+    onSecondary = LightOnSecondary,
+    onBackground = LightOnBackground,
+    onSurface = LightOnSurface,
 
     /* Other default colors to override
     background = Color(0xFFFFFBFE),
@@ -36,7 +48,7 @@ private val LightColorScheme = lightColorScheme(
 fun QuotesAppTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
     // Dynamic color is available on Android 12+
-    dynamicColor: Boolean = true,
+    dynamicColor: Boolean = false, // Set to false to use custom themes
     content: @Composable () -> Unit
 ) {
     val colorScheme = when {
@@ -45,8 +57,8 @@ fun QuotesAppTheme(
             if (darkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
         }
 
-        darkTheme -> DarkColorScheme
-        else -> LightColorScheme
+        darkTheme -> DarkColorPalette
+        else -> LightColorPalette
     }
 
     MaterialTheme(

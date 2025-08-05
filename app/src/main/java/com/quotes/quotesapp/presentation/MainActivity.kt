@@ -3,6 +3,7 @@ package com.quotes.quotesapp.presentation
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
+import androidx.activity.SystemBarStyle
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.background
@@ -35,6 +36,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -49,14 +51,17 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.aghajari.compose.lazyswipecards.LazySwipeCards
 import com.aghajari.compose.lazyswipecards.SwipeDirection
+import com.quotes.quotesapp.presentation.favorites.FavoritesScreen
 import com.quotes.quotesapp.presentation.model.QuoteUiModel
+import com.quotes.quotesapp.presentation.settings.SettingsViewModel
+import com.quotes.quotesapp.presentation.ui.theme.DarkPrimary
+import com.quotes.quotesapp.presentation.ui.theme.LightPrimary
 import com.quotes.quotesapp.presentation.ui.theme.QuotesAppTheme
 import com.quotes.quotesapp.presentation.viewmodel.MainViewModel
 import com.quotes.quotesapp.presentation.viewmodel.QuoteAction
 import com.quotes.quotesapp.presentation.viewmodel.QuoteEvent
 import com.quotes.quotesapp.presentation.viewmodel.QuoteState
 import dagger.hilt.android.AndroidEntryPoint
-import io.branch.referral.Branch
 
 sealed class BottomNavItem(val route: String, val icon: ImageVector, val label: String) {
     data object Home : BottomNavItem("home", Icons.Filled.Home, "Home")
@@ -68,13 +73,31 @@ sealed class BottomNavItem(val route: String, val icon: ImageVector, val label: 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
+
 
         setContent {
             val viewModel = hiltViewModel<MainViewModel>()
+
+            val settingsViewModel = hiltViewModel<SettingsViewModel>()
             val state by viewModel.state.collectAsStateWithLifecycle()
             val event by viewModel.events.collectAsStateWithLifecycle(initialValue = null)
             val navController = rememberNavController()
+
+            val darkMode by settingsViewModel.isDarkMode.collectAsStateWithLifecycle()
+
+            enableEdgeToEdge(
+                statusBarStyle = SystemBarStyle.auto(
+                    LightPrimary.toArgb(), DarkPrimary.toArgb()
+                ) {
+                    darkMode
+                },
+                    navigationBarStyle = SystemBarStyle.auto(
+                        LightPrimary.toArgb(), DarkPrimary.toArgb()
+                    ) {
+                        darkMode
+                    },
+
+                )
 
             LaunchedEffect(key1 = Unit) {
                 viewModel.fetchQuotes()
@@ -83,7 +106,7 @@ class MainActivity : ComponentActivity() {
             LaunchedEffect(event) {
                 when (val currentEvent = event) {
                     is QuoteEvent.Share -> {
-                        val shareText = "\"${currentEvent.quoteText}\" - ${currentEvent.quoteAuthor}"
+                        val shareText = "${currentEvent.quoteText} - ${currentEvent.quoteAuthor}"
                         Intent(Intent.ACTION_SEND).apply {
                             type = "text/plain"
                             putExtra(Intent.EXTRA_TEXT, shareText)
@@ -97,7 +120,7 @@ class MainActivity : ComponentActivity() {
                 }
             }
 
-            QuotesAppTheme {
+            QuotesAppTheme(darkTheme = darkMode) { // Pass darkMode state here
                 Scaffold(
                     modifier = Modifier.fillMaxSize(),
                     bottomBar = {
@@ -116,16 +139,17 @@ class MainActivity : ComponentActivity() {
                             )
                         }
                         composable(BottomNavItem.Favorites.route) {
-                            // TODO: Create FavoritesScreen composable
-                            Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                                Text("Favorites Screen")
-                            }
+                            FavoritesScreen(
+                                favoritesList = state.quotes.take(10),
+                                onDelete = { viewModel.onAction(QuoteAction.Delete(it)) },
+                                onShare = { viewModel.onAction(QuoteAction.Share(it)) }
+                            )
                         }
                         composable(BottomNavItem.Settings.route) {
-                            // TODO: Create SettingsScreen composable
-                            Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                                Text("Settings Screen")
-                            }
+                            SettingsScreen(
+                                onThemeChange = settingsViewModel::setDarkMode,
+                                isDarkTheme = darkMode
+                            )
                         }
                     }
                 }
@@ -135,11 +159,6 @@ class MainActivity : ComponentActivity() {
 
     override fun onStart() {
         super.onStart()
-        Branch.sessionBuilder(this).withCallback { params, error ->
-            if (error == null) {
-                
-            }
-        }.withData(intent?.data).init()
     }
 }
 

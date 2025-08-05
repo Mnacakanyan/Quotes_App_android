@@ -89,4 +89,7 @@ dependencies {
     implementation("androidx.navigation:navigation-compose:2.9.2")
 
     implementation ("io.branch.sdk.android:library:5.+")
+
+
+    implementation("androidx.datastore:datastore-preferences:1.1.7")
 }

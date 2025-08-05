@@ -8,6 +8,7 @@ sealed interface QuoteAction {
 
     data class Like(val model: QuoteUiModel) : QuoteAction
     data class Share(val model: QuoteUiModel) : QuoteAction
+    data class Delete(val model: QuoteUiModel) : QuoteAction
 }
 
 

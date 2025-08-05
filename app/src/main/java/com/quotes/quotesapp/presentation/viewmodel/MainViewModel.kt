@@ -67,17 +67,16 @@ class MainViewModel @Inject constructor(
                     _events.emit(QuoteEvent.Share(action.model.quote, action.model.author))
                 }
             }
+            is QuoteAction.Delete -> {
+                deleteQuote(action.model)
+            }
         }
     }
 
     fun onEventHandled() {
         viewModelScope.launch {
-            _events.emit(null) // Emit null or a specific "Handled" event
+            _events.emit(null)
         }
-    }
-
-    private fun setState(block: (QuoteState) -> QuoteState) {
-        _state.value = block(_state.value)
     }
 
     private fun removeFromList(model: QuoteUiModel) {
@@ -94,5 +93,18 @@ class MainViewModel @Inject constructor(
             
         }
 
+    }
+
+    private fun deleteQuote(model: QuoteUiModel) {
+        viewModelScope.launch(Dispatchers.IO) {
+            // TODO handle delete from favorites
+
+        }
+    }
+
+
+
+    private fun setState(block: (QuoteState) -> QuoteState) {
+        _state.value = block(_state.value)
     }
 }
