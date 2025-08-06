@@ -15,21 +15,27 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.quotes.quotesapp.presentation.model.QuoteUiModel
 
 @Composable
 fun FavoritesScreen(
-    favoritesList: List<QuoteUiModel>,
     onDelete: (QuoteUiModel) -> Unit,
     onShare: (QuoteUiModel) -> Unit
 ) {
+    val viewModel = hiltViewModel<FavoritesViewModel>()
+
+    val favoritesList by viewModel.favoriteQuotes.collectAsStateWithLifecycle()
+
     LazyColumn(
         modifier = Modifier.fillMaxSize()
     ) {
-        items(favoritesList, key = { it.quote }) {
+        items(favoritesList) {
             FavoriteItem(item = it, onDelete = onDelete, onShare = onShare)
         }
     }

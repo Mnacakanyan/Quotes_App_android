@@ -9,6 +9,6 @@ data class QuoteEntity(
     val id: Int = 0,
     val quote: String,
     val author: String,
-    val favorite: Boolean = false
+    val favorite: Boolean = true
 
 )

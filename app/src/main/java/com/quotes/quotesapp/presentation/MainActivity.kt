@@ -52,16 +52,11 @@ class MainActivity : ComponentActivity() {
             enableEdgeToEdge(
                 statusBarStyle = SystemBarStyle.auto(
                     LightPrimary.toArgb(), DarkPrimary.toArgb()
-                ) {
-                    darkMode
-                },
+                ) { darkMode },
                 navigationBarStyle = SystemBarStyle.auto(
                     LightPrimary.toArgb(), DarkPrimary.toArgb()
-                ) {
-                    darkMode
-                },
-
-                )
+                ) { darkMode }
+            )
 
             LaunchedEffect(key1 = Unit) {
                 viewModel.fetchQuotes()
@@ -85,7 +80,7 @@ class MainActivity : ComponentActivity() {
                 }
             }
 
-            QuotesAppTheme(darkTheme = darkMode) { // Pass darkMode state here
+            QuotesAppTheme(darkTheme = darkMode) {
                 Scaffold(
                     modifier = Modifier.fillMaxSize(),
                     bottomBar = {
@@ -105,7 +100,6 @@ class MainActivity : ComponentActivity() {
                         }
                         composable(BottomNavItem.Favorites.route) {
                             FavoritesScreen(
-                                favoritesList = state.quotes.take(10),
                                 onDelete = { viewModel.onAction(QuoteAction.Delete(it)) },
                                 onShare = { viewModel.onAction(QuoteAction.Share(it)) }
                             )

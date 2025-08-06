@@ -10,3 +10,9 @@ fun Quote.toQuoteUiModel(): QuoteUiModel {
     )
 }
 
+fun QuoteUiModel.toQuote(): Quote {
+    return Quote(
+        author = author,
+        quote = quote
+    )
+}

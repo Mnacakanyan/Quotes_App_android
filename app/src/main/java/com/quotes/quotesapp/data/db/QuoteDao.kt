@@ -18,6 +18,9 @@ interface QuoteDao {
     @Query("SELECT * FROM quote_database")
     fun getAllQuotes(): Flow<List<QuoteEntity>>
 
+    @Query("SELECT * FROM quote_database WHERE favorite = 1")
+    fun getAllFavorites(): Flow<List<QuoteEntity>>
+
     @Delete
     suspend fun deleteQuote(quote: QuoteEntity)
 

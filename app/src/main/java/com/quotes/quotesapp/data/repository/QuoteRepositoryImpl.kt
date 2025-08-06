@@ -1,6 +1,6 @@
 package com.quotes.quotesapp.data.repository
 
-import com.quotes.quotesapp.data.mapper.toQuote
+import com.quotes.quotesapp.data.mapper.toDomainQuote
 import com.quotes.quotesapp.data.model.QuoteResponse
 import com.quotes.quotesapp.domain.model.Quote
 import com.quotes.quotesapp.domain.repository.QuoteRepository
@@ -14,13 +14,13 @@ class QuoteRepositoryImpl(
     override suspend fun getDailyQuote(): Quote {
         return httpClient.get(
             urlString = "https://zenquotes.io/api/random"
-        ).body<List<QuoteResponse>>().first().toQuote()
+        ).body<List<QuoteResponse>>().first().toDomainQuote()
     }
 
     override suspend fun getQuotes(): List<Quote> {
         return httpClient.get(
             urlString = "https://zenquotes.io/api/quotes"
-        ).body<List<QuoteResponse>>().map { it.toQuote() }
+        ).body<List<QuoteResponse>>().map { it.toDomainQuote() }
     }
 
 

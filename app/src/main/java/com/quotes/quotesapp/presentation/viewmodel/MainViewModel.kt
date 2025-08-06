@@ -3,8 +3,10 @@ package com.quotes.quotesapp.presentation.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.quotes.quotesapp.data.db.QuoteDao
+import com.quotes.quotesapp.domain.repository.FavoritesRepository
 import com.quotes.quotesapp.domain.usecase.GetQuoteUseCase
 import com.quotes.quotesapp.domain.usecase.GetQuotesUseCase
+import com.quotes.quotesapp.presentation.mapper.toQuote
 import com.quotes.quotesapp.presentation.mapper.toQuoteUiModel
 import com.quotes.quotesapp.presentation.model.QuoteUiModel
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -21,7 +23,7 @@ import javax.inject.Inject
 class MainViewModel @Inject constructor(
     private val getQuoteUseCase: GetQuoteUseCase,
     private val getQuotesUseCase: GetQuotesUseCase,
-    private val quoteDao: QuoteDao
+    private val favoritesRepository: FavoritesRepository
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(QuoteState())
@@ -89,7 +91,7 @@ class MainViewModel @Inject constructor(
 
     private fun addToFavorites(model: QuoteUiModel) {
         viewModelScope.launch(Dispatchers.IO) {
-            removeFromList(model)
+            favoritesRepository.addFavorite(quote = model.toQuote())
             
         }
 
@@ -97,8 +99,7 @@ class MainViewModel @Inject constructor(
 
     private fun deleteQuote(model: QuoteUiModel) {
         viewModelScope.launch(Dispatchers.IO) {
-            // TODO handle delete from favorites
-
+            favoritesRepository.deleteQuote(quote = model.toQuote())
         }
     }
 
