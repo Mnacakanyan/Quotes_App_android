@@ -25,7 +25,7 @@ import com.quotes.quotesapp.presentation.model.QuoteUiModel
 
 @Composable
 fun FavoritesScreen(
-    onDelete: (QuoteUiModel) -> Unit,
+    onDelete: (Int) -> Unit,
     onShare: (QuoteUiModel) -> Unit
 ) {
     val viewModel = hiltViewModel<FavoritesViewModel>()
@@ -44,7 +44,7 @@ fun FavoritesScreen(
 @Composable
 internal fun FavoriteItem(
     item: QuoteUiModel,
-    onDelete: (QuoteUiModel) -> Unit,
+    onDelete: (Int) -> Unit,
     onShare: (QuoteUiModel) -> Unit
 ) {
     Card(
@@ -68,7 +68,7 @@ internal fun FavoriteItem(
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
             IconButton(
-                onClick = { onDelete.invoke(item) }
+                onClick = { onDelete.invoke(item.id) }
             ) {
                 Icon(
                     imageVector = Icons.Default.Delete,

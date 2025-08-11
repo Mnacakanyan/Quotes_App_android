@@ -24,5 +24,7 @@ interface QuoteDao {
     @Delete
     suspend fun deleteQuote(quote: QuoteEntity)
 
+    @Query("SELECT EXISTS (SELECT favorite FROM quote_database WHERE id = :id)")
+    suspend fun isFavorite(id: Int): Boolean
 
 }

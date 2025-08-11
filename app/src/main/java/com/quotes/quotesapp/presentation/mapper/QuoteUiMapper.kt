@@ -5,6 +5,7 @@ import com.quotes.quotesapp.presentation.model.QuoteUiModel
 
 fun Quote.toQuoteUiModel(): QuoteUiModel {
     return QuoteUiModel(
+        id = id,
         author = author,
         quote = quote
     )
@@ -12,6 +13,7 @@ fun Quote.toQuoteUiModel(): QuoteUiModel {
 
 fun QuoteUiModel.toQuote(): Quote {
     return Quote(
+        id = id,
         author = author,
         quote = quote
     )

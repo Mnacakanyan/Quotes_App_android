@@ -59,7 +59,8 @@ fun HomeScreen(
                         quoteString = it.quote,
                         quoteAuthor = it.author,
                         onLike = { viewModel.onAction(QuoteAction.Like(it)) },
-                        onShare = { viewModel.onAction(QuoteAction.Share(it)) }
+                        onShare = { viewModel.onAction(QuoteAction.Share(it)) },
+                        onDelete = { viewModel.onAction(QuoteAction.Delete(it.id)) }
                     )
                 }
             }

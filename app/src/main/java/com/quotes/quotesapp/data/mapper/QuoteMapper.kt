@@ -13,6 +13,7 @@ fun QuoteResponse.toDomainQuote(): Quote {
 
 fun QuoteEntity.toDomainQuote(): Quote {
     return Quote(
+        id = this.id,
         author = this.author,
         quote = this.quote
     )
@@ -20,6 +21,7 @@ fun QuoteEntity.toDomainQuote(): Quote {
 
 fun Quote.toEntity(): QuoteEntity {
     return QuoteEntity(
+        id = this.id,
         author = this.author,
         quote = this.quote
     )

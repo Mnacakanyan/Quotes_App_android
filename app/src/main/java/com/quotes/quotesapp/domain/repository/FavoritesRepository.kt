@@ -11,5 +11,7 @@ interface FavoritesRepository {
 
     suspend fun removeFavorite(quote: Quote)
 
-    suspend fun deleteQuote(quote: Quote)
+    suspend fun deleteQuote(id: Int)
+
+    suspend fun isFavorite(id: Int): Boolean
 }

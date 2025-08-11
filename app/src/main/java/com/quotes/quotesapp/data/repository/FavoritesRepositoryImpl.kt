@@ -30,7 +30,13 @@ class FavoritesRepositoryImpl @Inject constructor(
 
     }
 
-    override suspend fun deleteQuote(quote: Quote) {
-        quoteDao.deleteQuote(quote.toEntity())
+    override suspend fun deleteQuote(id: Int) {
+        quoteDao.deleteQuote(id)
     }
+
+    override suspend fun isFavorite(id: Int): Boolean {
+        return quoteDao.isFavorite(id)
+    }
+
+
 }

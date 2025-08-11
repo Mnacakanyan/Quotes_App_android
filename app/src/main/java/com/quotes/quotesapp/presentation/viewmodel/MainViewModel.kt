@@ -70,7 +70,7 @@ class MainViewModel @Inject constructor(
                 }
             }
             is QuoteAction.Delete -> {
-                deleteQuote(action.model)
+                deleteQuote(action.id)
             }
         }
     }
@@ -97,9 +97,9 @@ class MainViewModel @Inject constructor(
 
     }
 
-    private fun deleteQuote(model: QuoteUiModel) {
+    private fun deleteQuote(id: Int) {
         viewModelScope.launch(Dispatchers.IO) {
-            favoritesRepository.deleteQuote(quote = model.toQuote())
+            favoritesRepository.deleteQuote(id = id)
         }
     }
 
