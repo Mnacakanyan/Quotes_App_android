@@ -12,7 +12,7 @@ import androidx.compose.ui.platform.LocalContext
 
 private val DarkColorPalette = darkColorScheme(
     primary = DarkPrimary,
-    primaryContainer = DarkPrimaryVariant, // primaryVariant is deprecated, using primaryContainer instead
+    primaryContainer = DarkPrimaryVariant,
     secondary = DarkSecondary,
     background = DarkBackground,
     surface = DarkSurface,
@@ -24,7 +24,7 @@ private val DarkColorPalette = darkColorScheme(
 
 private val LightColorPalette = lightColorScheme(
     primary = LightPrimary,
-    primaryContainer = LightPrimaryVariant, // primaryVariant is deprecated, using primaryContainer instead
+    primaryContainer = LightPrimaryVariant,
     secondary = LightSecondary,
     background = LightBackground,
     surface = LightSurface,
